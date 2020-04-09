@@ -37,7 +37,7 @@
 	border-radius: 20px;
 	box-shadow: none;
 	padding: 0 20px 0 45px;
-	height: 400px;
+	: 400px;
 	transition: all 0.3s ease 0s;
 }
 
@@ -122,14 +122,13 @@
 .form-horizontal .text {
 	float: left;
 	margin-left: 7px;
-	line-height: 400px;
 	padding-top: 5px;
 	text-transform: capitalize;
 }
 
-.row{
+/*.row{
 	height: 600px;
-}
+}*/
 .form-horizontal .btn {
 	float: right;
 	font-size: 14px;
