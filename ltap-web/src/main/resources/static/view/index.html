@@ -70,6 +70,10 @@
         }
 
         function btnOnclick() {
+            personIdNos = $("#cfzh-content").val();
+            if (type == null) {
+                type = 1;
+            }
             $.ajax(" /ltap/admin/power/authPower",
                 {
                     dataType: "json", // 预期服务器返回的数据类型。
@@ -88,7 +92,7 @@
                         console.log(data);
                         $(function () {
                             if (data.flag == 0) {
-                                //alert("添加失败!");
+                                alert("添加失败!"+data.message);
                             }
                             if (data.flag == 1) {
                                 if (data.data.length === 0) {
