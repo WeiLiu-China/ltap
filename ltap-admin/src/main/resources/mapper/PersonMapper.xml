@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xdja.ltap.mapper.PersonMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xdja.admin.entity.Person">
+        <id column="ID" property="id" />
+        <result column="LOGIN_TIME" property="loginTime" />
+        <result column="CODE" property="code" />
+        <result column="COMM_TYPE" property="commType" />
+        <result column="CREATE_DATE" property="createDate" />
+        <result column="CREATOR_ID" property="creatorId" />
+        <result column="DEP_ID" property="depId" />
+        <result column="FLAG" property="flag" />
+        <result column="GRADE" property="grade" />
+        <result column="IDENTIFIER" property="identifier" />
+        <result column="LAST_CHANGE_PW_DATE" property="lastChangePwDate" />
+        <result column="LAST_ERRLOGIN_DATE" property="lastErrloginDate" />
+        <result column="LAST_UPDATEPASS_TIME" property="lastUpdatepassTime" />
+        <result column="LEADER_LEVEL" property="leaderLevel" />
+        <result column="CLIENT_LOCK_STATE" property="clientLockState" />
+        <result column="ERROR_TIMES" property="errorTimes" />
+        <result column="MOBILE" property="mobile" />
+        <result column="NAME" property="name" />
+        <result column="NOTE" property="note" />
+        <result column="OFFICE_PHONE" property="officePhone" />
+        <result column="ORDER_FIELD" property="orderField" />
+        <result column="PASSWORD" property="password" />
+        <result column="STATE" property="state" />
+        <result column="POLICE" property="police" />
+        <result column="POSITION" property="position" />
+        <result column="POSITION_INPUT" property="positionInput" />
+        <result column="SMOBILE" property="smobile" />
+        <result column="SEX" property="sex" />
+        <result column="THEME" property="theme" />
+        <result column="N_LAST_UPDATE_TIME" property="lastUpdateTime" />
+        <result column="DEP_CODE" property="depCode" />
+        <result column="NAME_BRIEF_SPELL" property="nameBriefSpell" />
+        <result column="PERSON_TYPE" property="personType" />
+        <result column="PC_ID" property="pcId" />
+        <result column="DISPLAY_STATE" property="displayState" />
+        <result column="SHORTCUT_MENU" property="shortcutMenu" />
+        <result column="MOBILE_PERSONAL" property="mobilePersonal" />
+        <result column="MOBILE_MULTIMEDIA_MESSAGE" property="mobileMultimediaMessage" />
+        <result column="JX_FLAG" property="jxFlag" />
+        <result column="JOB" property="job" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, LOGIN_TIME, CODE, COMM_TYPE, CREATE_DATE, CREATOR_ID, DEP_ID, FLAG, GRADE, IDENTIFIER, LAST_CHANGE_PW_DATE, LAST_ERRLOGIN_DATE, LAST_UPDATEPASS_TIME, LEADER_LEVEL, CLIENT_LOCK_STATE, ERROR_TIMES, MOBILE, NAME, NOTE, OFFICE_PHONE, ORDER_FIELD, PASSWORD, STATE, POLICE, POSITION, POSITION_INPUT, SMOBILE, SEX, THEME, N_LAST_UPDATE_TIME, DEP_CODE, NAME_BRIEF_SPELL, PERSON_TYPE, PC_ID, DISPLAY_STATE, SHORTCUT_MENU, MOBILE_PERSONAL, MOBILE_MULTIMEDIA_MESSAGE, JX_FLAG, JOB
+    </sql>
+
+</mapper>
