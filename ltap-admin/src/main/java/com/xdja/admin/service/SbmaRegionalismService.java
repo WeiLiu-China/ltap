@@ -1,6 +1,7 @@
 package com.xdja.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xdja.admin.bean.RoamAppList;
 import com.xdja.admin.entity.SbmaRegionalism;
 
 import java.util.List;
@@ -15,4 +16,6 @@ import java.util.List;
  */
 public interface SbmaRegionalismService extends IService<SbmaRegionalism> {
 	List<SbmaRegionalism> list();
+
+	List<RoamAppList> getRoamAppListlist(String appRegionalismCode) throws Exception;
 }

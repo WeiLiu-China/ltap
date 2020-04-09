@@ -35,4 +35,10 @@ public class SbmaRegionalismController {
 		return JsonResponse.success(list);
 	}
 
+	@PostMapping("/getApplyList")
+	public Object getApplyList() {
+		List<SbmaRegionalism> list = sbmaRegionalismService.list();
+		return JsonResponse.success(list);
+	}
+
 }
