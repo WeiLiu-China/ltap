@@ -2,6 +2,7 @@ package com.xdja.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xdja.admin.entity.SbmaRegionalism;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.xdja.admin.entity.SbmaRegionalism;
  * @author lw
  * @since 2020-04-09
  */
+@Mapper
 public interface SbmaRegionalismMapper extends BaseMapper<SbmaRegionalism> {
 
 }
