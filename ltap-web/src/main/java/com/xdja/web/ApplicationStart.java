@@ -2,7 +2,6 @@ package com.xdja.web;
 
 import com.xdja.web.configure.MybatisConfigure;
 import com.xdja.web.configure.SystemConfigure;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;

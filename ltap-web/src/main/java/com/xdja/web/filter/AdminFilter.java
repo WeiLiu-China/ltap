@@ -20,7 +20,7 @@ import java.io.IOException;
  * @date 2019/5/15 17:42
  */
 @Slf4j
-@WebFilter(filterName = "adminFilter", value = {"/admin/*"})
+//@WebFilter(filterName = "adminFilter", value = {"/admin/*"})
 public class AdminFilter implements Filter {
     @Autowired
     private TokenFactory tokenFactory;
