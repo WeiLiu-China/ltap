@@ -23,6 +23,7 @@ import javax.servlet.ServletException;
 @EnableScheduling
 @Import({SystemConfigure.class, MybatisConfigure.class})
 public class ApplicationStart extends SpringBootServletInitializer {
+
     /**
      * 配置文件路径, 以','分割的字符串. 配置采用覆盖式, 当有多个配置路径, 且包含相同配置属性时, 后者会覆盖前者. (windows环境下 /home/...以当前磁盘为根目录)
      */
