@@ -2,6 +2,7 @@ package com.xdja.web;
 
 import com.xdja.web.configure.MybatisConfigure;
 import com.xdja.web.configure.SystemConfigure;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -18,6 +19,7 @@ import javax.servlet.ServletException;
  * @since 2019/9/11
  */
 @SpringBootApplication
+@MapperScan
 @EnableScheduling
 @Import({SystemConfigure.class, MybatisConfigure.class})
 public class ApplicationStart extends SpringBootServletInitializer {
