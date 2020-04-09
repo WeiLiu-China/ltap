@@ -74,45 +74,53 @@
             if (type == null) {
                 type = 1;
             }
-            $.ajax(" /ltap/admin/power/authPower",
-                {
-                    dataType: "json", // 预期服务器返回的数据类型。
-                    type: "post", //  请求方式 POST或GET
-                    contentType: "application/json", //  发送信息至服务器时的内容编码类型
-                    // 发送到服务器的数据
-                    data: JSON.stringify({
-                        appId: applyId,
-                        appRegionalismCode: regionId,
-                        personIdNos: personIdNos,
-                        type: type
-                    }),
-                    async: true, // 默认设置下，所有请求均为异步请求。如果设置为false，则发送同步请求
-                    // 请求成功后的回调函数。
-                    success: function (data) {
-                        console.log(data);
-                        $(function () {
-                            if (data.flag == 0) {
-                                alert("添加失败!"+data.message);
-                            }
-                            if (data.flag == 1) {
-                                if (data.data.length === 0) {
-                                    alert("全部添加成功！");
+            if (regionId == null) {
+                alert("请选择地区");
+            } else if (applyId == null) {
+                alert("请选择应用");
+            } else if (personIdNos == null) {
+                alert("请输入人员身份证号");
+            } else {
+                $.ajax(" /ltap/admin/power/authPower",
+                    {
+                        dataType: "json", // 预期服务器返回的数据类型。
+                        type: "post", //  请求方式 POST或GET
+                        contentType: "application/json", //  发送信息至服务器时的内容编码类型
+                        // 发送到服务器的数据
+                        data: JSON.stringify({
+                            appId: applyId,
+                            appRegionalismCode: regionId,
+                            personIdNos: personIdNos,
+                            type: type
+                        }),
+                        async: true, // 默认设置下，所有请求均为异步请求。如果设置为false，则发送同步请求
+                        // 请求成功后的回调函数。
+                        success: function (data) {
+                            console.log(data);
+                            $(function () {
+                                if (data.flag == 0) {
+                                    alert("添加失败!" + data.message);
                                 }
-                                if (data.data.length > 0) {
-                                    var rtMessage = "部分添加成功！无效的身份证号码为 ：";
-                                    for (var i = 0; i < data.data.length; i++) {
-                                        rtMessage += ',' + data.data[i]
+                                if (data.flag == 1) {
+                                    if (data.data.length === 0) {
+                                        alert("全部添加成功！");
                                     }
-                                    alert(rtMessage);
+                                    if (data.data.length > 0) {
+                                        var rtMessage = "部分添加成功！无效的身份证号码为 ：";
+                                        for (var i = 0; i < data.data.length; i++) {
+                                            rtMessage += ',' + data.data[i]
+                                        }
+                                        alert(rtMessage);
+                                    }
                                 }
-                            }
-                        });
-                    },
-                    // 请求出错时调用的函数
-                    error: function () {
-                        alert("获取地区列表失败");
-                    }
-                });
+                            });
+                        },
+                        // 请求出错时调用的函数
+                        error: function () {
+                            alert("获取地区列表失败");
+                        }
+                    });
+            }
         }
 
         function chooseBtnOnclick(type, id) {
