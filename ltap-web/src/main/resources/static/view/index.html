@@ -8,36 +8,24 @@
     <script src="frame/jq.js"></script>
     <link rel="stylesheet"
           href="frame/font-awesome.css">
-    <!--<link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet"
-          href="frame/bootstrap/css/bootstrap.min.css">-->
-    <!--<link rel="stylesheet"
-          href="frame/bootstrap/js/bootstrap.min.js">-->
     <link rel="stylesheet" type="text/css" href="css/htmleaf-demo.css">
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet"
           href="frame/bootstrap.last.css">
-    <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-    <link rel="stylesheet"
-          href="frame/bootstrap.last.js">
-    <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
-    <script>
-        localStorage.removeItem("single");
-        localStorage.removeItem("fill");
-        localStorage.removeItem("judge");
-        localStorage.removeItem("question");
-        localStorage.removeItem("composition");
-    </script>-->
+    <script src="frame/bootstrap.last.js"></script>
     <script>
         //地区列表
         var regionList = new Array();
+        //地区ID
+        var regionId = "";
         //应用列表
         var applyList = new Array();
+        //应用NAME
+        var applyId = "";
+        //新增/删除
+        var type;
+        var personIdNos;
 
         function
         pageLoad() {
@@ -47,62 +35,149 @@
                     type: "post", //  请求方式 POST或GET
                     contentType: "application/json", //  发送信息至服务器时的内容编码类型
                     // 发送到服务器的数据。
-                    // data:JSON.stringify({user_id :user_id, password : password,subject:subject}),
-                    data: JSON.stringify({}),
-                    async: true, // 默认设置下，所有请求均为异步请求。如果设置为false，则发送同步请求
-                    // 请求成功后的回调函数。
-                    success: function (data) {
-                        alert(data);
-                        $(function () {
-                        });
-                    },
-                    // 请求出错时调用的函数
-                    error: function () {
-                        //	   alert("获取地区列表失败");
-                    }
-                });
-            $.ajax("/ltap/sbma-regionalism/getApplyList",
-                {
-                    dataType: "json", // 预期服务器返回的数据类型。
-                    type: "post", //  请求方式 POST或GET
-                    contentType: "application/json", //  发送信息至服务器时的内容编码类型
-                    // 发送到服务器的数据。
-                    // data:JSON.stringify({user_id :user_id, password : password,subject:subject}),
                     data: JSON.stringify({}),
                     async: true, // 默认设置下，所有请求均为异步请求。如果设置为false，则发送同步请求
                     // 请求成功后的回调函数。
                     success: function (data) {
                         console.log(data);
                         $(function () {
+                            if (data.flag == 0) {
+                                alert(data.message);
+                            } else {
+                                if (data.result.length == 0) {
+                                    alert("地区列表无数据");
+                                } else {
+                                    regionList = data.result;
+                                    var htmlInfo = "";
+                                    for (var i = 0; i < data.result.length; i++) {
+                                        htmlInfo +=
+                                            "<li><a href=\"#\" onclick=\"chooseBtnOnclick(1," + "'" + data.result[i].code +
+                                            "')\">" +
+                                            data.result[i].name + "</a></li>";
+                                    }
+                                    console.log(htmlInfo)
+                                    $("#regionList").html(htmlInfo);
+                                }
+                            }
                         });
                     },
                     // 请求出错时调用的函数
                     error: function () {
-                        //	   alert("获取应用列表失败");
+                        alert("获取地区列表失败");
+                    }
+                });
+
+        }
+
+        function btnOnclick() {
+            $.ajax(" /ltap/admin/power/authPower",
+                {
+                    dataType: "json", // 预期服务器返回的数据类型。
+                    type: "post", //  请求方式 POST或GET
+                    contentType: "application/json", //  发送信息至服务器时的内容编码类型
+                    // 发送到服务器的数据
+                    data: JSON.stringify({
+                        appId: applyId,
+                        appRegionalismCode: regionId,
+                        personIdNos: personIdNos,
+                        type: type
+                    }),
+                    async: true, // 默认设置下，所有请求均为异步请求。如果设置为false，则发送同步请求
+                    // 请求成功后的回调函数。
+                    success: function (data) {
+                        console.log(data);
+                        $(function () {
+                            if (data.flag == 0) {
+                                //alert("添加失败!");
+                            }
+                            if (data.flag == 1) {
+                                if (data.data.length === 0) {
+                                    alert("全部添加成功！");
+                                }
+                                if (data.data.length > 0) {
+                                    var rtMessage = "部分添加成功！无效的身份证号码为 ：";
+                                    for (var i = 0; i < data.data.length; i++) {
+                                        rtMessage += ',' + data.data[i]
+                                    }
+                                    alert(rtMessage);
+                                }
+                            }
+                        });
+                    },
+                    // 请求出错时调用的函数
+                    error: function () {
+                        alert("获取地区列表失败");
                     }
                 });
         }
 
-        function btnOnclick() {
-            alert("SUCCESS");
-            var checkbox = $("#checkbox1").prop("checked");
-            if (checkbox == true) {
-                var stuNum = $("#user_id").val();
-                var userPwd = $("#password").val();
-                var subject = $("#subject").val();
-                if (stuNum != null || userPwd != null) {
-                    localStorage.setItem("stuNum", stuNum);
-                    localStorage.setItem("userPwd", userPwd);
-                    localStorage.setItem("subject", subject);
+        function chooseBtnOnclick(type, id) {
+            if (type == 1) {
+                regionId = id;
+                var content = "";
+                for (var i = 0; i < regionList.length; i++) {
+                    if (id == regionList[i].code) {
+                        content = regionList[i].name;
+                    }
                 }
+                $("#chooseRegion").html(content);
+                $.ajax("/ltap/sbma-regionalism/getApplyList",
+                    {
+                        dataType: "json", // 预期服务器返回的数据类型。
+                        type: "post", //  请求方式 POST或GET
+                        contentType: "application/json", //  发送信息至服务器时的内容编码类型
+                        // 发送到服务器的数据。
+                        data: JSON.stringify({code: id}),
+                        async: true, // 默认设置下，所有请求均为异步请求。如果设置为false，则发送同步请求
+                        // 请求成功后的回调函数。
+                        success: function (data) {
+                            console.log(data);
+                            $(function () {
+                                if (data.flag == 0) {
+                                    alert(data.message);
+                                } else {
+                                    if (data.result.length == 0) {
+                                        $("#chooseApply").html("无数据");
+                                        var htmlInfo = "";
+                                        htmlInfo +=
+                                            "<li><a href=\"#\">无数据</a></li>";
+                                        $("#applyList").html(htmlInfo);
+                                    } else {
+                                        $("#chooseApply").html("请选择");
+                                        applyList = data.result;
+                                        var htmlInfo = "";
+                                        for (var i = 0; i < data.result.length; i++) {
+                                            htmlInfo +=
+                                                "<li><a href=\"#\" onclick=\"chooseBtnOnclick(2," + "'" +
+                                                data.result[i].appId +
+                                                "')\">" +
+                                                data.result[i].appName + "</a></li>";
+                                        }
+                                        console.log(htmlInfo);
+                                        $("#applyList").html(htmlInfo);
+                                    }
+                                }
+                            });
+                        },
+                        // 请求出错时调用的函数
+                        error: function () {
+                            alert("获取应用列表失败");
+                        }
+                    });
             }
-            else {
-                localStorage.removeItem("userPwd");
-                localStorage.removeItem("subject");
+            if (type = 2) {
+                applyId = id;
+                var content = "";
+                for (var i = 0; i < applyList.length; i++) {
+                    if (id == applyList[i].appId) {
+                        content = applyList[i].appName;
+                    }
+                    $("#chooseApply").html(content);
+                }
             }
         }
     </script>
-    <script src="http://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <!-- <script src="http://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>-->
 </head>
 <body onLoad="pageLoad()">
 <div class="htmleaf-container">
@@ -116,11 +191,8 @@
                 <sapn id="chooseRegion">请选择地区</sapn>
                 <span class="caret"></span>
             </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                <li><a href="#" onclick="chooseBtnOnclick('chooseRegion','1')">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li><a href="#">Separated link</a></li>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="regionList">
+                <li><a href="#">无数据</a></li>
             </ul>
         </span>
         <span class="dropdown">
@@ -129,34 +201,30 @@
                <sapn id="chooseApply">请选择应用</sapn>
                 <span class="caret"></span>
             </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                <li><a href="#">Action2</a></li>
-                <li><a href="#">Another action2</a></li>
-                <li><a href="#">Something else here2</a></li>
-                <li><a href="#">Separated link2</a></li>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2" id="applyList">
+                <li><a href="#" onclick="chooseBtnOnclick(2,1)">请先选择地区</a></li>
             </ul>
         </span>
-
     </header>
     <div class="demo form-bg" style="padding: 20px 0;">
         <div class="container">
             <div class="row">
                 <div class="col-md-offset-3 col-md-6">
-                    <!--action="login.action" method="post"-->
                     <div class="form-horizontal">
                         <span class="heading">提交内容</span>
                         <div class="form-group">
                             <div class="form-group help">
                                 <input type="textarea" class="form-control" id="cfzh-content"
-                                       name="subject" placeholder="请复制身份证号到这里"> <i class="fa fa-lock"></i>
+                                       name="subject" placeholder="请复制身份证号到这里,多个,隔开"> <i class="fa fa-lock"></i>
                                 <a href="#" class="fa fa-question-circle"></a>
                                 <div class="main-checkbox">
                                     <input type="checkbox" id="checkbox1" name="check"
-                                           checked="checked"/> <label for="checkbox1"></label>
+                                           checked="checked" onclick="checkBox(1)"/> <label
+                                        for="checkbox1"></label>
                                 </div>
                                 <span class="text">添加&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                                 <div class="main-checkbox">
-                                    <input type="checkbox" id="checkbox2" name="check"
+                                    <input type="checkbox" id="checkbox2" name="check" onclick="checkBox(2)"
                                     /> <label for="checkbox2"></label>
                                 </div>
                                 <span class="text">删除&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -174,15 +242,6 @@
         </div>
     </div>
 </div>
-<script>
-    //获取选中菜单，填充到页面上，以及全局变量中
-    var chooseRegion = $("#test").html();
-    var chooseApply = $("#test").html();
-
-    function chooseBtnOnclick(type, id) {
-
-    }
-</script>
 <style>
     .container {
         width: 90% !important;
@@ -367,5 +426,35 @@
         margin-left: 1%;
     }
 </style>
+<script>
+    function checkBox(checkBoxType) {
+        if (checkBoxType == 1) {
+            var bol = $("#checkbox1").is(":checked");
+            //debugger;
+            if (!bol) {
+                $('#checkbox1').prop("checked", true);
+                $('#checkbox2').prop("checked", false);
+                type = 1;
+            } else {
+                $('#checkbox1').prop("checked", true);
+                $('#checkbox2').prop("checked", false);
+                type = 1;
+            }
+        }
+        if (checkBoxType == 2) {
+            var bol = $("#checkbox2").is(":checked");
+            if (!bol) {
+                $('#checkbox2').prop("checked", true);
+                $('#checkbox1').prop("checked", false);
+                type = 2;
+            } else {
+                $('#checkbox2').prop("checked", true);
+                $('#checkbox1').prop("checked", false);
+                type = 2;
+            }
+        }
+    }
+
+</script>
 </body>
 </html>

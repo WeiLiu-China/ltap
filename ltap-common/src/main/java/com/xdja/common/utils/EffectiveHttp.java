@@ -2,6 +2,7 @@ package com.xdja.common.utils;
 
 import com.alibaba.fastjson.JSON;
 import org.apache.http.*;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.EntityBuilder;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -22,6 +23,7 @@ import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.entity.BasicHttpEntity;
 import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -151,6 +153,34 @@ public class EffectiveHttp {
 	 */
 	public static EffectiveHttp.PostUtil createPost(String url, ContentType contentType) {
 		return new EffectiveHttp.PostUtil(url, contentType);
+	}
+
+	public String httpPostJson(String url, String data) throws Exception {
+
+		String retResult = "";
+		HttpClient client = HttpClients.createDefault();
+		RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(5000).setConnectionRequestTimeout(5000)
+				.setSocketTimeout(500000).build();
+		HttpPost httpPost = new HttpPost(url);
+		httpPost.setConfig(requestConfig);
+		httpPost.setHeader("Connection", "close");
+		httpPost.setHeader("Content-Type", "application/json");
+		HttpResponse httpResponse = null;
+		try {
+			httpPost.setEntity(new StringEntity(data, "utf-8"));
+			httpResponse = client.execute(httpPost);
+			int statusCode = httpResponse.getStatusLine().getStatusCode();
+			if (statusCode != 200) {
+				return "";
+			}
+			retResult = EntityUtils.toString(httpResponse.getEntity());
+		} catch (IOException e) {
+			throw new Exception("调用接口失败");
+		} finally {
+			httpPost.releaseConnection();
+			EntityUtils.consumeQuietly(httpResponse.getEntity());
+		}
+		return retResult;
 	}
 
 	/**
@@ -418,6 +448,8 @@ public class EffectiveHttp {
 			this(url);
 			entityBuilder.setContentType(contentType);
 		}
+
+
 
 		/**
 		 * 设置超时时间(该模块待抽象出去)
@@ -700,6 +732,8 @@ public class EffectiveHttp {
 		public CloseableHttpResponse getResponse() {
 			return this.response;
 		}
+
+
 
 	}
 }
