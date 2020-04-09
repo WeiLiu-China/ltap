@@ -19,7 +19,7 @@ import javax.servlet.ServletException;
  * @since 2019/9/11
  */
 @SpringBootApplication
-@MapperScan
+@MapperScan({"com.xdja.*.mapper"})
 @EnableScheduling
 @Import({SystemConfigure.class, MybatisConfigure.class})
 public class ApplicationStart extends SpringBootServletInitializer {
