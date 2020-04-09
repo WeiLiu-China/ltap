@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
  * @author zk
  * @since 2019/9/12
  */
-@MapperScan("com.xdja.dao")
+@MapperScan("com.xdja.*.mapper")
 @Configuration
 public class MybatisConfigure {
     @Bean
