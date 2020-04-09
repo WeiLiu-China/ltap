@@ -1,10 +1,7 @@
 package com.xdja.common.utils;
 
 import com.alibaba.fastjson.JSON;
-import org.apache.http.Consts;
-import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
-import org.apache.http.ParseException;
+import org.apache.http.*;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.EntityBuilder;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -527,5 +524,13 @@ public class HttpUtil {
             return response.getStatusLine().getStatusCode();
         }
 
+        public String getResponseHeader(String name) {
+            for (Header header:response.getAllHeaders()) {
+                if (name.equals(header.getName())) {
+                    return header.getValue();
+                }
+            }
+            return null;
+        }
     }
 }
