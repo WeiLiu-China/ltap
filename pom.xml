@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.2.RELEASE</version> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.xdja</groupId>
+    <artifactId>ltap</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>ltap</name>
+
+    <properties>
+        <ojdbc6.version>11.2.0.4.0</ojdbc6.version>
+        <java.version>1.8</java.version>
+        <guava.version>20.0</guava.version>
+        <lombok.version>1.18.6</lombok.version>
+        <fastjson.version>1.2.47</fastjson.version>
+        <mybatisplus.version>3.1.2</mybatisplus.version>
+        <mybatisplus.starter.version>3.1.2</mybatisplus.starter.version>
+        <xdja.file.transfer>1.1.1-SNAPSHOT</xdja.file.transfer>
+        <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
+        <xdja.framework.commons.utils.version>1.0.0</xdja.framework.commons.utils.version>
+        <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
+        <maven.test.skip>true</maven.test.skip>
+        <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
+    </properties>
+
+    <scm>
+        <connection>scm:git:git@gitlab.idc.safecenter.cn:zk/eoa-h5-REPLACE_ME.git</connection>
+        <url>http://gitlab.idc.safecenter.cn/zk/eoa-h5-REPLACE_ME</url>
+        <developerConnection>scm:git:git@gitlab.idc.safecenter.cn:zk/eoa-h5-REPLACE_ME.git</developerConnection>
+    </scm>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- ????????? -->
+            <dependency>
+                <groupId>com.xdja</groupId>
+                <artifactId>ltap-admin</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.xdja</groupId>
+                <artifactId>ltap-common</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.xdja</groupId>
+                <artifactId>ltap-web</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.oracle.ojdbc</groupId>
+                <artifactId>ojdbc8</artifactId>
+                <scope>runtime</scope>
+            </dependency>
+            <!-- mybatis(plus)???? -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatisplus.starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus</artifactId>
+                <version>${mybatisplus.version}</version>
+            </dependency>
+            <!-- ?????????? -->
+            <dependency>
+                <groupId>com.xdja</groupId>
+                <artifactId>file-transfer</artifactId>
+                <version>${xdja.file.transfer}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.xdja.framework</groupId>
+                <artifactId>framework-commons-utils</artifactId>
+                <version>${xdja.framework.commons.utils.version}</version>
+            </dependency>
+            <!-- json?????????? -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.7</version>
+            </dependency>
+            <!-- spring cloud -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- guava[?????????token????] -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- ????????JDK??? -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <!-- ????jar????MANIFEST.MF -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Version>v${project.version}</Version>
+                            <Timestamp>${maven.build.timestamp}</Timestamp>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <!-- ????war????MANIFEST.MF -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Version>v${project.version}</Version>
+                            <Timestamp>${maven.build.timestamp}</Timestamp>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <!-- version???, ?????????pom.xml????????pom?????: mvn versions:set -DgenerateBackupPoms=false -DnewVersion=3.9.0 -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+            </plugin>
+            <!-- release??? -->
+            <!-- ?????????????????????git(-B???????????????????????): mvn -B release:prepare -->
+            <!-- ??????????????????(??????????????????tag): mvn release:rollback -->
+            <!-- ????????release??????: mvn release:clean -->
+            <!-- ??????????SNAPSHOT?????: mvn release:perform -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <allowTimestampedSnapshots>true</allowTimestampedSnapshots>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <includeEmptyDirs>true</includeEmptyDirs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+<modules>
+    <module>ltap-common</module>
+    <module>ltap-admin</module>
+    <module>ltap-web</module>
+  </modules>
+</project>

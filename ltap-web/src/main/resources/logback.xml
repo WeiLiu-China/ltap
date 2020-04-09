@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="20 seconds">
+    <property name="LOG_LEVEL" value="DEBUG"/>
+    <property name="LOG_FILE_NAME" value="ltap"/>
+    <property name="LOG_OUT_PATH" value="/home/logs"/>
+
+    <!-- 控制台日志 -->
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%date{yy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50}:%line - %msg%n</pattern>
+        </layout>
+    </appender>
+
+    <!-- 基础日志 -->
+    <appender name="normal" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_OUT_PATH}/${LOG_FILE_NAME}/${LOG_FILE_NAME}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--日志文件输出的文件路径和文件名,不要修改-->
+            <FileNamePattern>
+                ${LOG_OUT_PATH}/${LOG_FILE_NAME}/${LOG_FILE_NAME}.%d{yyyy-MM-dd}.%i.log
+            </FileNamePattern>
+            <MaxHistory>30</MaxHistory>
+            <maxFileSize>64MB</maxFileSize>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}:%line - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 错误日志 -->
+    <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_OUT_PATH}/${LOG_FILE_NAME}/${LOG_FILE_NAME}-error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--日志文件输出的文件路径和文件名,不要修改-->
+            <FileNamePattern>
+                ${LOG_OUT_PATH}/${LOG_FILE_NAME}/${LOG_FILE_NAME}-error.%d{yyyy-MM-dd}.%i.log
+            </FileNamePattern>
+            <MaxHistory>30</MaxHistory>
+            <maxFileSize>64MB</maxFileSize>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %thread %logger{50} %file:%line - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>warn</level>		<!-- only log warn/error msg -->
+        </filter>
+    </appender>
+
+    <logger name="org" level="WARN"/>
+    <logger name="io.lettuce" level="WARN"/>
+    <logger name="com.zaxxer.hikari" level="WARN"/>
+    <logger name="com.xdja.service.task.EoaTasks" level="ERROR"/>
+
+    <root level="${LOG_LEVEL}">
+        <appender-ref ref="stdout"/>
+        <!--
+        <appender-ref ref="normal"/>
+        <appender-ref ref="error"/>
+        -->
+    </root>
+
+</configuration>
