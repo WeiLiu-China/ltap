@@ -1,5 +1,6 @@
 package com.xdja.admin.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.xdja.admin.bean.AuthBean;
 import com.xdja.admin.bean.RoamAppAuthInfo;
 import com.xdja.admin.entity.Person;
@@ -45,20 +46,29 @@ public class AuthServiceImpl implements AuthService {
     public List<String> authPower(AuthBean authBean) {
         String personIdNos = authBean.getPersonIdNos();
         List<String> idNos = Arrays.asList(personIdNos.split(","));
-        Collection<Person> personList = personService.listByIds(idNos);
-        // 有效身份证号
-        List<String> effectiveIdNos = personList.stream().map(Person::getIdentifier).collect(Collectors.toList());
+        // 无效身份证号
+        List<String> invalidIdNos = new ArrayList<>();
         List<RoamAppAuthInfo> roamAppAuthInfos = new ArrayList<>();
         String type = authBean.getType() == 1?"1":"3";
-        if (EmptyUtil.isNotEmpty(personList)) {
-            personList.forEach(person -> {
-                RoamAppAuthInfo roamAppAuthInfo = new RoamAppAuthInfo();
-                roamAppAuthInfo.setAppId(authBean.getAppId());
-                roamAppAuthInfo.setAppRegionalismCode(authBean.getAppRegionalismCode());
-                roamAppAuthInfo.setPersonId(person.getId());
-                roamAppAuthInfo.setPersonRegionalismCode(localRegionalismCode);
-                roamAppAuthInfo.setType(type);
-                roamAppAuthInfos.add(roamAppAuthInfo);
+        if (EmptyUtil.isNotEmpty(idNos)) {
+            idNos.forEach(idNo -> {
+                List<Person> personList = personService.list(Wrappers.<Person>lambdaQuery()
+                        .eq(Person::getFlag,"0")
+                        .eq(Person::getIdentifier,idNo));
+                if (EmptyUtil.isNotEmpty(personList)) {
+                    Person person = personList.get(0);
+                    RoamAppAuthInfo roamAppAuthInfo = new RoamAppAuthInfo();
+                    roamAppAuthInfo.setAppId(authBean.getAppId());
+                    roamAppAuthInfo.setAppRegionalismCode(authBean.getAppRegionalismCode());
+                    roamAppAuthInfo.setPersonId(person.getId());
+                    roamAppAuthInfo.setPersonRegionalismCode(localRegionalismCode);
+                    roamAppAuthInfo.setType(type);
+                    roamAppAuthInfos.add(roamAppAuthInfo);
+                } else {
+                    // 未查到
+                    invalidIdNos.add(idNo);
+
+                }
             });
             String messageId = UUIDUtil.random();
             HttpUtil.ResponseWrap responseWrap = HttpUtil.createPost(userAppAuthUrl)
@@ -85,8 +95,6 @@ public class AuthServiceImpl implements AuthService {
         } else {
             throw new ErrorTipException("没有有效的人员需要授权");
         }
-        // 筛选无效身份证号
-        idNos.removeAll(effectiveIdNos);
-        return idNos;
+        return invalidIdNos;
     }
 }

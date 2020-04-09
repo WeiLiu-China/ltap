@@ -33,20 +33,20 @@ public class WebConfigure {
      * @param redisTemplate redisTemplate
      * @return tokenFactory
      */
-    @Bean
-    public TokenFactory getTokenFactoryBean(RedisTemplate<String, String> redisTemplate) {
-        TokenFactory tokenFactory = new TokenFactory();
-        TokenConfig tokenConfig = new TokenConfig();
-        tokenConfig.setAutoDelay(true);
-        tokenConfig.setExpiredTimeInMinutes(tokenExpiredTime);
-        tokenConfig.setKeyGenerator(UUIDUtil::random);
-
-        RedisTokenOperator redisTokenOperator = new RedisTokenOperator(tokenConfig);
-        redisTokenOperator.setRedisTemplate(redisTemplate);
-        //默认redis存储session信息
-        tokenFactory.setOperator(redisTokenOperator);
-        return tokenFactory;
-    }
+    //@Bean
+    //public TokenFactory getTokenFactoryBean(RedisTemplate<String, String> redisTemplate) {
+    //    TokenFactory tokenFactory = new TokenFactory();
+    //    TokenConfig tokenConfig = new TokenConfig();
+    //    tokenConfig.setAutoDelay(true);
+    //    tokenConfig.setExpiredTimeInMinutes(tokenExpiredTime);
+    //    tokenConfig.setKeyGenerator(UUIDUtil::random);
+    //
+    //    RedisTokenOperator redisTokenOperator = new RedisTokenOperator(tokenConfig);
+    //    redisTokenOperator.setRedisTemplate(redisTemplate);
+    //    //默认redis存储session信息
+    //    tokenFactory.setOperator(redisTokenOperator);
+    //    return tokenFactory;
+    //}
 
     /**
      * http message converter

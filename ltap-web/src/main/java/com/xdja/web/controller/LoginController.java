@@ -21,17 +21,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/public/admin")
 public class LoginController {
 
-    @Autowired
-    private TokenFactory tokenFactory;
+    //@Autowired
+    //private TokenFactory tokenFactory;
 
     /**
      * 登录逻辑
      *
      * @return token
      */
-    @PostMapping(value = "/login")
-    public JsonResponse login(){
-        String token = tokenFactory.getOperator().add(UUIDUtil.random());
-        return JsonResponse.success(token);
-    }
+    //@PostMapping(value = "/login")
+    //public JsonResponse login(){
+    //    String token = tokenFactory.getOperator().add(UUIDUtil.random());
+    //    return JsonResponse.success(token);
+    //}
 }
