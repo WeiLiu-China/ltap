@@ -20,7 +20,7 @@ import javax.servlet.ServletException;
 @SpringBootApplication
 @EnableScheduling
 @Import({SystemConfigure.class, MybatisConfigure.class})
-public class ApplicationStart extends SpringBootServletInitializer {
+public class ApplicationStart {
 
     /**
      * 配置文件路径, 以','分割的字符串. 配置采用覆盖式, 当有多个配置路径, 且包含相同配置属性时, 后者会覆盖前者. (windows环境下 /home/...以当前磁盘为根目录)
@@ -37,9 +37,9 @@ public class ApplicationStart extends SpringBootServletInitializer {
     /**
      * tomcat启动
      */
-    @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
-        servletContext.setInitParameter("spring.config.location", CONFIG_FILES_PATH);
-        super.onStartup(servletContext);
-    }
+    //@Override
+    //public void onStartup(ServletContext servletContext) throws ServletException {
+    //    servletContext.setInitParameter("spring.config.location", CONFIG_FILES_PATH);
+    //    super.onStartup(servletContext);
+    //}
 }
