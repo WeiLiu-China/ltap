@@ -12,6 +12,7 @@ import com.xdja.common.utils.EffectiveHttp;
 import com.xdja.framework.commons.utils.UUIDUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -29,6 +30,7 @@ import static com.xdja.common.Bean.Constants.UN_BE_DELETED;
  */
 @Service
 @Slf4j
+@RefreshScope
 public class SbmaRegionalismServiceImpl extends ServiceImpl<SbmaRegionalismMapper, SbmaRegionalism> implements SbmaRegionalismService {
 
 	private static Integer pageNo = 1;

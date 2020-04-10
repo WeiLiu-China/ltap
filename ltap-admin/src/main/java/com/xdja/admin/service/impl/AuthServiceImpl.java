@@ -1,5 +1,6 @@
 package com.xdja.admin.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.xdja.admin.bean.AuthBean;
 import com.xdja.admin.bean.RoamAppAuthInfo;
@@ -44,6 +45,12 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public List<String> authPower(AuthBean authBean) {
+        if (EmptyUtil.isEmpty(localRegionalismCode)) {
+            throw new ErrorTipException("未配置本地行政区划编码，请在application.properties中配置【local.regionalism.code】");
+        }
+        if (EmptyUtil.isEmpty(userAppAuthUrl)) {
+            throw new ErrorTipException("未配置统一授权地址，请在application.properties中配置【user.app.auth.url】");
+        }
         String personIdNos = authBean.getPersonIdNos();
         List<String> idNos = Arrays.asList(personIdNos.split(","));
         // 无效身份证号
@@ -70,6 +77,12 @@ public class AuthServiceImpl implements AuthService {
 
                 }
             });
+            if (EmptyUtil.isEmpty(roamAppAuthInfos)) {
+                throw new ErrorTipException("没有有效的人员需要授权");
+            }
+            if (log.isDebugEnabled()) {
+                log.debug("权限导入请求参数：{}", JSON.toJSONString(roamAppAuthInfos));
+            }
             String messageId = UUIDUtil.random();
             HttpUtil.ResponseWrap responseWrap = HttpUtil.createPost(userAppAuthUrl)
                     .addHeader("messageId", messageId)
