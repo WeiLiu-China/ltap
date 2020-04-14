@@ -50,7 +50,7 @@
     <logger name="io.lettuce" level="WARN"/>
     <logger name="io.netty" level="WARN"/>
     <logger name="com.zaxxer.hikari" level="WARN"/>
-    <logger name="com.xdja" level="ERROR"/>
+    <logger name="com.xdja" level="DEBUG"/>
 
     <root level="${LOG_LEVEL}">
         <appender-ref ref="stdout"/>
