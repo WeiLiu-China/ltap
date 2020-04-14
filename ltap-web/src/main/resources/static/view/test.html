@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #textArea {
+            color: white;
+            height: 50px;
+        }
+        #textArea::-webkit-input-placeholder{
+            height: 50px;line-height: 50px
+        }    /* 使用webkit内核的浏览器 */
+        #textArea:-moz-placeholder{
+            height: 50px;line-height: 50px
+        }                  /* Firefox版本4-18 */
+        #textArea::-moz-placeholder{
+            height: 50px;line-height: 50px
+        }                  /* Firefox版本19+ */
+        #textArea:-ms-input-placeholder{
+            height: 50px;line-height: 50px
+        }
+    </style>
+</head>
+<body>
+<textarea id="textArea" name="" placeholder="请输入"></textarea>
+</body>
+</html>
