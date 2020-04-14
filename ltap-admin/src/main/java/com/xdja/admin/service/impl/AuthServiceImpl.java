@@ -21,9 +21,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author yxb
@@ -58,12 +56,14 @@ public class AuthServiceImpl implements AuthService {
         List<RoamAppAuthInfo> roamAppAuthInfos = new ArrayList<>();
         String type = authBean.getType() == 1?"1":"3";
         if (EmptyUtil.isNotEmpty(idNos)) {
+            log.debug("开始对应用{}进行批量授权/取消授权",authBean.getAppId());
             idNos.forEach(idNo -> {
                 List<Person> personList = personService.list(Wrappers.<Person>lambdaQuery()
                         .eq(Person::getFlag,"0")
                         .eq(Person::getIdentifier,idNo));
                 if (EmptyUtil.isNotEmpty(personList)) {
                     Person person = personList.get(0);
+                    log.debug("检索到人员：{}",person.getName());
                     RoamAppAuthInfo roamAppAuthInfo = new RoamAppAuthInfo();
                     roamAppAuthInfo.setAppId(authBean.getAppId());
                     roamAppAuthInfo.setAppRegionalismCode(authBean.getAppRegionalismCode());
@@ -72,6 +72,7 @@ public class AuthServiceImpl implements AuthService {
                     roamAppAuthInfo.setType(type);
                     roamAppAuthInfos.add(roamAppAuthInfo);
                 } else {
+                    log.warn("未检索到人员：{}",idNo);
                     // 未查到
                     invalidIdNos.add(idNo);
 

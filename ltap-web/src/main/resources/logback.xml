@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration scan="true" scanPeriod="20 seconds">
-    <property name="LOG_LEVEL" value="DEBUG"/>
+<configuration scan="true" scanPeriod="5 seconds">
+    <property name="LOG_LEVEL" value="ERROR"/>
     <property name="LOG_FILE_NAME" value="ltap"/>
     <property name="LOG_OUT_PATH" value="/home/logs"/>
 
@@ -48,15 +48,14 @@
 
     <logger name="org" level="WARN"/>
     <logger name="io.lettuce" level="WARN"/>
+    <logger name="io.netty" level="WARN"/>
     <logger name="com.zaxxer.hikari" level="WARN"/>
-    <logger name="com.xdja.service.task.EoaTasks" level="ERROR"/>
+    <logger name="com.xdja" level="ERROR"/>
 
     <root level="${LOG_LEVEL}">
         <appender-ref ref="stdout"/>
-        <!--
         <appender-ref ref="normal"/>
         <appender-ref ref="error"/>
-        -->
     </root>
 
 </configuration>
