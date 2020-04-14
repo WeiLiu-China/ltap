@@ -18,11 +18,11 @@
         //地区列表
         var regionList = new Array();
         //地区ID
-        var regionId = "";
+        var regionId;
         //应用列表
         var applyList = new Array();
         //应用NAME
-        var applyId = "";
+        var applyId;
         //新增/删除
         var type;
         var personIdNos;
@@ -102,15 +102,18 @@
                                     alert("添加失败!" + data.message);
                                 }
                                 if (data.flag == 1) {
-                                    if (data.data.length === 0) {
+                                    if (data.result === null || data.result.length == 0) {
                                         alert("全部添加成功！");
-                                    }
-                                    if (data.data.length > 0) {
-                                        var rtMessage = "部分添加成功！无效的身份证号码为 ：";
-                                        for (var i = 0; i < data.data.length; i++) {
-                                            rtMessage += ',' + data.data[i]
+                                    } else {
+                                        var rtMessage = "部分添加成功！";
+                                        var wrongData = "无效的身份证号码为:";
+                                        wrongData += data.result[0];
+                                        for (var i = 1; i < data.result.length; i++) {
+                                            wrongData += ',' + data.result[i]
                                         }
+                                        rtMessage += wrongData;
                                         alert(rtMessage);
+                                        $("#cfzh-content").val(wrongData);
                                     }
                                 }
                             });
@@ -177,7 +180,7 @@
                         }
                     });
             }
-            if (type = 2) {
+            if (type = 2&&id!=regionId) {
                 applyId = id;
                 var content = "";
                 for (var i = 0; i < applyList.length; i++) {
@@ -189,7 +192,6 @@
             }
         }
     </script>
-    <!-- <script src="http://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>-->
 </head>
 <body onLoad="pageLoad()">
 <div class="htmleaf-container">
@@ -226,8 +228,9 @@
                         <span class="heading">提交内容</span>
                         <div class="form-group">
                             <div class="form-group help">
-                                <input type="textarea" class="form-control" id="cfzh-content"
-                                       name="subject" placeholder="请复制身份证号到这里,多个,隔开"> <i class="fa fa-lock"></i>
+                                <textarea type="textarea" class="form-control" id="cfzh-content"
+                                          name="subject" placeholder="请复制身份证号到这里,多个,隔开"></textarea>
+                                <i class="fa fa-lock"></i>
                                 <a href="#" class="fa fa-question-circle"></a>
                                 <div class="main-checkbox">
                                     <input type="checkbox" id="checkbox1" name="check"
@@ -255,6 +258,34 @@
     </div>
 </div>
 <style>
+    #cfzh-content {
+        height: 400px;
+        font-size: 17px;
+    }
+
+    #cfzh-content::-webkit-input-placeholder {
+        height: 400px;
+        line-height: 400px;
+    }
+
+    /* 使用webkit内核的浏览器 */
+    #cfzh-content:-moz-placeholder {
+        height: 400px;
+        line-height: 400px;
+    }
+
+    /* Firefox版本4-18 */
+    #cfzh-content::-moz-placeholder {
+        height: 400px;
+        line-height: 400px;
+    }
+
+    /* Firefox版本19+ */
+    #cfzh-content:-ms-input-placeholder {
+        height: 400px;
+        line-height: 400px;
+    }
+
     .container {
         width: 90% !important;
         height: 100% !important;
