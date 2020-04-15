@@ -260,12 +260,6 @@ public class Person extends Model<Person> {
     @TableField("JX_FLAG")
     private String jxFlag;
 
-    /**
-     * 岗位
-     */
-    @TableField("JOB")
-    private String job;
-
 
     @Override
     protected Serializable pkVal() {

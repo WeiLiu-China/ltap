@@ -43,7 +43,6 @@
         <result column="MOBILE_PERSONAL" property="mobilePersonal" />
         <result column="MOBILE_MULTIMEDIA_MESSAGE" property="mobileMultimediaMessage" />
         <result column="JX_FLAG" property="jxFlag" />
-        <result column="JOB" property="job" />
     </resultMap>
 
     <!-- 通用查询结果列 -->

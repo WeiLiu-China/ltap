@@ -32,6 +32,7 @@ public class ApplicationStart {
      */
     public static void main(String[] args) {
         SpringApplication.run(ApplicationStart.class, "--spring.config.location=" + CONFIG_FILES_PATH);
+        System.out.println("ltap启动成功...");
     }
 
     /**

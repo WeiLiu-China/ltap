@@ -24,8 +24,6 @@ import java.util.Arrays;
 @ServletComponentScan("com.xdja.web.filter")
 @Configuration
 public class WebConfigure {
-    @Value("${token.expired.time}")
-    private int tokenExpiredTime;
 
     /**
      * token机制，默认使用redis存储session信息
